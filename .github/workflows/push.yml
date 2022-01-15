@@ -36,13 +36,13 @@ jobs:
         run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
         
       - run: source $HOME/.poetry/env && poetry self update
-      - run: poetry install
+      - run: source $HOME/.poetry/env && poetry install
 
       - name: Run Python Test
-        run: PYTHONPATH=src/ poetry run python -m pytest -v --cov=src/ tests/
+        run: PYTHONPATH=src/ source && $HOME/.poetry/env && poetry run python -m pytest -v --cov=src/ tests/
 
       - name: Run Coverage
-        run: PYTHONPATH=src/ poetry run python -m coverage report -m;
+        run: PYTHONPATH=src/ && $HOME/.poetry/env && poetry run python -m coverage report -m;
 
       - name: Build the stack
         run: docker-compose -f docker-compose.yml up -d --build
