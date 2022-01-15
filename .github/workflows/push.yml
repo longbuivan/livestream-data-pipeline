@@ -31,9 +31,10 @@ jobs:
         uses: abatilo/actions-poetry@v2.0.0
         with:
           poetry-version: ${{ matrix.poetry-version }}
+        run: poetry install --no-root
 
       - name: View poetry --help
-        run: poetry install -h && pwd && ls -lrt
+        run: poetry --version -h && pwd && ls -lrt
 
       - name: Install dependencies
         shell: bash
