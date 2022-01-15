@@ -36,8 +36,8 @@ jobs:
         run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
         
       - run: source $HOME/.poetry/env
-      - run: poetry self update
-      - run: poetry install
+      - run: cd $HOME && poetry self update
+      - run: cd $HOME && poetry install
 
       - name: Run Python Test
         run: PYTHONPATH=src/ poetry run python -m pytest -v --cov=src/ tests/
