@@ -1,0 +1,81 @@
+name: docker-compose-actions-workflow
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.8]
+        poetry-version: [1.1.11]
+        os: [ubuntu-18.04]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{matrix.python-version}}
+
+      - name: Run image
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+
+      - name: View poetry --help
+        run: poetry install -h && pwd && ls -lrt
+
+      - name: Install dependencies
+        shell: bash
+        run: poetry install --no-root
+
+      - name: Run Python Test
+        run: PYTHONPATH=src/ poetry run python -m pytest -v --cov=src/ tests/
+
+      - name: Run Coverage
+        run: PYTHONPATH=src/ poetry run python -m coverage report -m;
+
+      - name: Build the stack
+        run: docker-compose -f docker-compose.yml up -d --build
+
+      - name: Check running containers
+        run: docker ps -a
+
+      - uses: hashicorp/setup-terraform@v1
+      - run: cd terraform && terraform init -input=false && ls -lrt
+
+      - name: Terraform Format
+        id: fmt
+        run: cd terraform && terraform fmt -check
+        continue-on-error: true
+
+      - name: Terraform Validate
+        id: validate
+        run: cd terraform && terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        run: cd terraform && terraform plan  -no-color
+        continue-on-error: true
+
+      - name: Terraform Apply
+        id: apply
+        run: cd terraform && terraform apply -auto-approve
+        continue-on-error: true
+
+      - name: Cleans
+        run: cd terraform && terraform destroy
+
+      - name: Stop containers
+        if: always()
+        run: docker-compose -f "docker-compose.yml" down
