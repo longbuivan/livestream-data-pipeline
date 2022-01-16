@@ -37,7 +37,7 @@ jobs:
         
       - run: source $HOME/.poetry/env && poetry self update
 
-      - run: source $HOME/.poetry/env && poetry install --no-root
+      # - run: source $HOME/.poetry/env && poetry install --no-root
 
       - name: Run Python Test
         run: PYTHONPATH=src/ source && $HOME/.poetry/env && poetry run python -m pytest -v --cov=src/ tests/
