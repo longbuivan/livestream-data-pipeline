@@ -1,5 +1,5 @@
 resource "aws_glue_catalog_database" "glue_database_test" {
-    name = "database-test"
+    name = "database_test"
 }
 
 resource "aws_glue_catalog_table" "glue_table_test" {
