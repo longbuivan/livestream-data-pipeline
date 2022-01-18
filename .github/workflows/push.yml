@@ -54,10 +54,10 @@ jobs:
       - uses: hashicorp/setup-terraform@v1
       - run: cd terraform && terraform init -input=false && ls -lrt
 
-      - name: Terraform Format
-        id: fmt
-        run: cd terraform && terraform fmt -check
-        continue-on-error: true
+      # - name: Terraform Format
+      #   id: fmt
+      #   run: cd terraform && terraform fmt -check
+      #   continue-on-error: true
 
       - name: Terraform Validate
         id: validate
@@ -75,6 +75,7 @@ jobs:
 
       - name: Cleans
         run: cd terraform && terraform apply -destroy
+        continue-on-error: true
 
       - name: Stop containers
         if: always()
