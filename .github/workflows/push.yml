@@ -74,7 +74,7 @@ jobs:
         continue-on-error: true
 
       - name: Cleans
-        run: cd terraform && terraform destroy -force
+        run: cd terraform && terraform apply -destroy
 
       - name: Stop containers
         if: always()
