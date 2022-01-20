@@ -27,6 +27,8 @@ jobs:
         with:
           python-version: ${{matrix.python-version}}
 
+      - name: Run build.sh
+        run: sh ./build.sh
       # - name: Run image
       #   uses: abatilo/actions-poetry@v2.0.0
       #   with:
@@ -54,11 +56,6 @@ jobs:
       - uses: hashicorp/setup-terraform@v1
       - run: cd terraform && terraform init -input=false && ls -lrt
 
-      # - name: Terraform Format
-      #   id: fmt
-      #   run: cd terraform && terraform fmt -check
-      #   continue-on-error: true
-
       - name: Terraform Validate
         id: validate
         run: cd terraform && terraform validate -no-color
@@ -73,7 +70,7 @@ jobs:
         run: cd terraform && terraform apply -auto-approve
         continue-on-error: true
 
-      - name: Cleans
+      - name: Localstack Teardown
         run: cd terraform && terraform apply -destroy
         continue-on-error: true
 
