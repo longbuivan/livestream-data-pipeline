@@ -30,10 +30,10 @@ jobs:
       - name: Run build.sh
         run: sh ./build.sh
       
-      - name: poetry install
-        uses: abatilo/actions-poetry@v2.0.0
-        with:
-          poetry-version: 1.0.9
+      # - name: poetry install
+      #   uses: abatilo/actions-poetry@v2.0.0
+      #   with:
+      #     poetry-version: 1.0.9
 
       - name: UT
         run: poetry run pytest --cov=src --cov-fail-under=0 tests/

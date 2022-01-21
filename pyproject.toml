@@ -1,5 +1,10 @@
 [tool.poetry.dependencies]
+name = "Livestream Data Pipeline"
+version = "1.0.0"
+description = "Create data pipeline for ingesting web logs data to Datalake"
 python = "~3.8"
+project-model = {git = "git@github.com:longbuivan/livestream-data-pipeline.git", rev = "main"}
+
 
 [tool.poetry.dev-dependencies]
 boto3 = "1.14.3"
