@@ -14,11 +14,8 @@ pip3 install boto3==1.20.10 --user
 # source "$HOME"/.poetry/bin && poetry install && poetry run pytest --cov=src --cov-fail-under=0 tests/
 echo "Verify poetry installing"
 
-echo "Install dependencies"
-sudo apt install -y $(grep -o ^[^#][[:alnum:]-]* "packages.list")
-python3 -m pip install --upgrade pip
-pip3 install -r requirements.txt
+# echo "Install dependencies"
+# sudo apt install -y $(grep -o ^[^#][[:alnum:]-]* "packages.list")
+# python3 -m pip install --upgrade pip
+# pip3 install -r requirements.txt
 
-echo "Running Pytest"
-# run pytest
-pytest --cov=src --cov-fail-under=0 tests/
