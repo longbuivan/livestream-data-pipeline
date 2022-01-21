@@ -17,7 +17,7 @@ jobs:
         python-version: [3.8]
         poetry-version: [1.0.9]
         os: [ubuntu-18.04]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
       - uses: actions/checkout@v2
@@ -35,7 +35,7 @@ jobs:
           sudo apt install -y $(grep -o ^[^#][[:alnum:]-]* "packages.list")
           python3 -m pip install --upgrade pip
           pip3 install -r requirements.txt
-      
+
       - name: Test with pytest
         run: |
           pytest --cov=src --cov-fail-under=0 tests/
@@ -51,14 +51,13 @@ jobs:
         continue-on-error: true
 
       - name: UT
-        run: poetry run pytest --cov=src --cov-fail-under=0 tests/
+        run: PYTHONPATH=src/ poetry run pytest --cov=src --cov-fail-under=0 tests/
 
       - name: Run Coverage
         run: PYTHONPATH=src/ poetry run python -m coverage report -m
 
       - name: Generate XML Report
         run: PYTHONPATH=src/ poetry run python -m coverage xml
-
 
       - name: Build the localstack
         run: docker-compose -f docker-compose.yml up -d --build
@@ -89,7 +88,7 @@ jobs:
         run: cd terraform && terraform plan -destroy
         continue-on-error: true
 
-      - name: Destroy resources 
+      - name: Destroy resources
         id: destroy
         run: cd terraform && terraform destroy -auto-approve
 
