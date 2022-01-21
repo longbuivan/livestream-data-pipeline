@@ -37,7 +37,7 @@ jobs:
         run: docker ps -a
 
       - uses: hashicorp/setup-terraform@v1
-      - run: cd terraform && terraform init -input=false ./terraform/ && ls -lrt
+      - run: cd terraform && terraform init -input=false && ls -lrt
 
       - name: Terraform Validate
         id: validate
