@@ -38,8 +38,9 @@ jobs:
           pytest --cov=src --cov-fail-under=0 tests/
         continue-on-error: true
 
-      # - name: Run build.sh
-      #   run: sh ./build.sh
+      - name: Run build.sh
+        run: sh ./build.sh
+        
       - name: Poetry install
         uses: abatilo/actions-poetry@v2.0.0
         with:
