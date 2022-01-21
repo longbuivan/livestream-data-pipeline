@@ -16,6 +16,7 @@ echo "Verify poetry installing"
 
 echo "Install dependencies"
 sudo apt install -y $(grep -o ^[^#][[:alnum:]-]* "packages.list")
-python3 -m pip install --upgrade pip
-pip3 install -r requirements.txt
+        python3 -m pip install --upgrade pip
+        pip3 install -r requirements.txt
+
 

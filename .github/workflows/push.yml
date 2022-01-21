@@ -27,20 +27,20 @@ jobs:
         with:
           python-version: ${{matrix.python-version}}
 
+      - name: Run build.sh
+        run: sh ./build.sh
+
       - name: Install Python dependencies with pip
         run: |
-          sudo apt install -y $(grep -o ^[^#][[:alnum:]-]* "packages.list")
-          python3 -m pip install --upgrade pip
-          pip3 install -r requirements.txt
+          sudo apt install -y $(grep -o ^[^#][[:alnum:]-]* "packages.list")\
+          python3 -m pip install --upgrade pip\
+          pip3 install -r requirements.txt\
       
       - name: Test with pytest
         run: |
           pytest --cov=src --cov-fail-under=0 tests/
         continue-on-error: true
 
-      - name: Run build.sh
-        run: sh ./build.sh
-        
       - name: Poetry install
         uses: abatilo/actions-poetry@v2.0.0
         with:
