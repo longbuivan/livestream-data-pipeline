@@ -35,6 +35,9 @@ jobs:
         with:
           poetry-version: 1.0.9
 
+      - name: install dependencies with poetry
+        run: source "$HOME"/.poetry/env && poetry config virtualenvs.in-project true && poetry install --no-root
+
       - name: UT
         run: PYTHONPATH=src/ poetry run pytest --cov=src --cov-fail-under=0 tests/
 
