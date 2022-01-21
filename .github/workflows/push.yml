@@ -29,32 +29,15 @@ jobs:
 
       - name: Run build.sh
         run: sh ./build.sh
-      # - name: Run image
-      #   uses: abatilo/actions-poetry@v2.0.0
-      #   with:
-      #     poetry-version: ${{ matrix.poetry-version }}
 
-      # - name: Set up poetry ${{ matrix.poetry-version }}
-      #   run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
-        
-      # - run: source $HOME/.poetry/env && poetry self update
-
-      # # - run: source $HOME/.poetry/env && poetry install --no-root
-
-      # - name: Run Python Test
-      #   run: PYTHONPATH=src/ source && $HOME/.poetry/env && poetry run pytest --cov=src --cov-fail-under=0 tests/
-
-      # - name: Run Coverage
-      #   run: PYTHONPATH=src/ && $HOME/.poetry/env && poetry run python -m coverage report -m;
-
-      - name: Build the stack
+      - name: Build the localstack
         run: docker-compose -f docker-compose.yml up -d --build
 
       - name: Check running containers
         run: docker ps -a
 
       - uses: hashicorp/setup-terraform@v1
-      - run: cd terraform && terraform init -input=false && ls -lrt
+      - run: cd terraform && terraform init -input=false ./terraform/ && ls -lrt
 
       - name: Terraform Validate
         id: validate
@@ -70,9 +53,13 @@ jobs:
         run: cd terraform && terraform apply -auto-approve
         continue-on-error: true
 
-      - name: Localstack Teardown
-        run: cd terraform && terraform apply -destroy
+      - name: Show Destroy plan
+        run: cd terraform && terraform plan -destroy
         continue-on-error: true
+
+      - name: Destroy resources 
+        id: destroy
+        run: cd terraform && terraform destroy -auto-approve
 
       - name: Stop containers
         if: always()

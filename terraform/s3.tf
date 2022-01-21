@@ -1,4 +1,12 @@
 ####S3####
+
+#S3 bucket for tfstae
+resource "aws_s3_bucket" "terraform-workspace-state" {
+  bucket = "tfstate"
+  acl = "private"
+  force_destroy = true # for comment for integration test
+}
+
 #S3 bucket for put files as JSON
 resource "aws_s3_bucket" "bucket-1" {
   bucket = "bucket-1-json"

@@ -1,10 +1,10 @@
-resource "aws_glue_catalog_database" "glue_database_test" {
-    name = "database_test"
-}
+# resource "aws_glue_catalog_database" "glue_database_test" {
+#     name = "database_test"
+# }
 
 resource "aws_glue_catalog_table" "glue_table_test" {
     name = "table-test"
-    database_name = aws_glue_catalog_database.glue_database_test.name
+    database_name = "database_athena"
     table_type = "EXTERNAL_TABLE"
     parameters = {
         EXTERNAL              = "TRUE"
