@@ -16,5 +16,6 @@ source "$HOME"/.poetry/env
 # poetry init --name "livestream-datapipeline" --version 1.0.0 --description "ingesting weblogs to datalake"
 # poetry init
 # poetry config virtualenvs.create false
+poetry completions bash > /etc/bash_completion.d/poetry.bash-completion
 poetry install && poetry run pytest --cov=src --cov-fail-under=0 tests/
 echo "Verify poetry installing"

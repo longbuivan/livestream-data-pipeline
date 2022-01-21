@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "Livestream Data Pipeline"
+name = "livestream-data-pipeline"
 version = "1.0.0"
 description = "Create data pipeline for ingesting web logs data to Datalake"
 authors = ["longbuivan <longbuivan@github.com>"]
