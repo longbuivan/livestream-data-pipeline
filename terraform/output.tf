@@ -15,9 +15,9 @@ output "Dynammo-DB" {
  value = "${aws_dynamodb_table.dynamodb-table.name}"
 }
 
-output "glue_database" {
-  value = "${aws_glue_catalog_database.glue_database_test.arn}"
-}
+# output "glue_database" {
+#   value = "${aws_glue_catalog_database.glue_database_test.arn}"
+# }
 
 output "glue_table" {
    value =  "${aws_glue_catalog_table.glue_table_test.arn}"

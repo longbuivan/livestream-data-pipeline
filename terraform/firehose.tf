@@ -27,7 +27,7 @@ resource "aws_kinesis_firehose_delivery_stream" "extend_parquet" {
             }
 
             schema_configuration {
-                database_name = aws_glue_catalog_database.glue_database_test.name
+                database_name = "database_athena"
                 role_arn      = aws_iam_role.firehose_role.arn
                 table_name    = aws_glue_catalog_table.glue_table_test.name
             }
