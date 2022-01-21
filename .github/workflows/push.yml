@@ -27,7 +27,6 @@ jobs:
         with:
           python-version: ${{matrix.python-version}}
 
-
       - name: Install Python dependencies with pip
         run: |
           sudo apt install -y $(grep -o ^[^#][[:alnum:]-]* "packages.list")
@@ -47,20 +46,17 @@ jobs:
           poetry-version: 1.0.9
 
       - name: Install dependencies with poetry
-        run: PYTHONPATH=src/ poetry install && poetry completions bash > /etc/bash_completion.d/poetry.bash-completion
+        run: PYTHONPATH=src/ poetry install
         continue-on-error: true
 
       - name: UT
-        run: PYTHONPATH=src/ poetry run pytest --cov=src --cov-fail-under=0 tests/
-        continue-on-error: true
+        run: PYTHONPATH=src/ && poetry run pytest --cov=src --cov-fail-under=0 tests/
 
       - name: Run Coverage
-        run: PYTHONPATH=src/ poetry run python -m coverage report -m
-        continue-on-error: true
+        run: PYTHONPATH=src/ && poetry run python -m coverage report -m
 
       - name: Generate XML Report
-        run: PYTHONPATH=src/ poetry run python -m coverage xml
-        continue-on-error: true
+        run: PYTHONPATH=src/ && poetry run python -m coverage xml
 
 
       - name: Build the localstack
