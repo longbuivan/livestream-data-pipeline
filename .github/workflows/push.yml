@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: [3.8]
-        poetry-version: [1.1.11]
+        poetry-version: [1.0.9]
         os: [ubuntu-18.04]
     runs-on: ubuntu-latest
 
@@ -36,7 +36,7 @@ jobs:
           poetry-version: 1.0.9
 
       - name: install dependencies with poetry
-        run: poetry install && poetry completions bash > /etc/bash_completion.d/poetry.bash-completion
+        run: poetry self update 1.0.9 && poetry install && poetry completions bash > /etc/bash_completion.d/poetry.bash-completion
 
       - name: UT
         run: PYTHONPATH=src/ poetry run pytest --cov=src --cov-fail-under=0 tests/
