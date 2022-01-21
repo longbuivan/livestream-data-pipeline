@@ -30,13 +30,15 @@ jobs:
       - name: Run build.sh
         run: sh ./build.sh
       
-      - name: poetry install
-        uses: abatilo/actions-poetry@v2.0.0
-        with:
-          poetry-version: 1.0.9
+      # - name: poetry install
+      #   uses: abatilo/actions-poetry@v2.0.0
+      #   with:
+      #     poetry-version: 1.0.9
+      - name: Install Poetry
+        uses: dschep/install-poetry-action@v1.2
 
       - name: install dependencies with poetry
-        run: poetry self update 1.0.9 && poetry install && poetry completions bash > /etc/bash_completion.d/poetry.bash-completion
+        run: poetry self update && poetry install && poetry completions bash > /etc/bash_completion.d/poetry.bash-completion
 
       - name: UT
         run: PYTHONPATH=src/ poetry run pytest --cov=src --cov-fail-under=0 tests/
