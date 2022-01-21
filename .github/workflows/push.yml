@@ -34,11 +34,19 @@ jobs:
       #   uses: abatilo/actions-poetry@v2.0.0
       #   with:
       #     poetry-version: 1.0.9
-      - name: Install Poetry
-        uses: dschep/install-poetry-action@v1.2
 
       - name: install dependencies with poetry
         run: poetry self update && poetry install && poetry completions bash > /etc/bash_completion.d/poetry.bash-completion
+
+      - name: Install Python dependencies
+        run: |
+          sudo apt install -y $(grep -o ^[^#][[:alnum:]-]* "packages.list")
+          python3 -m pip install --upgrade pip
+          pip3 install -r requirements.txt
+
+      - name: Test with pytest
+        run: |
+          pytest --cov=src --cov-fail-under=0 tests/
 
       - name: UT
         run: PYTHONPATH=src/ poetry run pytest --cov=src --cov-fail-under=0 tests/
