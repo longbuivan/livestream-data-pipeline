@@ -1,3 +1,5 @@
+#!/bin/bash -xe
+
 echo "Clean out mirrors and other cache apt things"
 # apt clean all
 # apt python3-devel.x86_64 -y
