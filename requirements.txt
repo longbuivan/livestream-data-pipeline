@@ -1,0 +1,7 @@
+pytest
+pytest-cov
+pytest-github-actions-annotate-failures
+boto3
+pylint
+pyodbc
+freezegun
