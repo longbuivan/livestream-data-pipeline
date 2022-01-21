@@ -9,9 +9,9 @@ import boto3
 LOGGER = logging.getLogger()
 LOGGER.setLevel(logging.INFO)
 
-dynamodb_client = boto3.client('dynamodb')
-s3_client= boto3.client('s3')
-firehose_client = boto3.client("firehose")
+dynamodb_client = boto3.client('dynamodb', region_name='us-east-1')
+s3_client= boto3.client('s3', region_name='us-east-1')
+firehose_client = boto3.client('firehose', region_name='us-east-1')
 
 LAMBDA_PATH = "/tmp/"
 DST_BUCKET_2 = 'bucket-2-csv'
