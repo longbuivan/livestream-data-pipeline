@@ -30,6 +30,9 @@ jobs:
       - name: Run build.sh
         run: sh ./build.sh
 
+      - name: UT
+        run: poetry run pytest --cov=src --cov-fail-under=0 tests/
+
       - name: Build the localstack
         run: docker-compose -f docker-compose.yml up -d --build
 
