@@ -36,7 +36,14 @@ jobs:
       #     poetry-version: 1.0.9
 
       - name: UT
-        run: poetry run pytest --cov=src --cov-fail-under=0 tests/
+        run: PYTHONPATH=src/ poetry run pytest --cov=src --cov-fail-under=0 tests/
+
+      - name: Run Coverage
+        run: PYTHONPATH=src/ poetry run python -m coverage report -m;
+
+      - name: Generate XML Report
+        run: PYTHONPATH=src/ poetry run python -m coverage xml
+
 
       - name: Build the localstack
         run: docker-compose -f docker-compose.yml up -d --build
