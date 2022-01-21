@@ -5,8 +5,7 @@ import time
 from botocore.exceptions import ClientError
 import pytest
 from freezegun import freeze_time
-from src.lambda_sorter import lambda_handlera
-
+from src.parse_json import lambda_handler
 
 def test_lambda_handler():
     assert True

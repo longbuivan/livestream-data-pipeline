@@ -11,5 +11,11 @@ echo "Pull required packages"
 curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
 pip3 install --upgrade pip setuptools wheel
 pip3 install boto3==1.20.10 --user
-source "$HOME"/.poetry/bin && poetry install && poetry run pytest --cov=src --cov-fail-under=0 tests/
+# source "$HOME"/.poetry/bin && poetry install && poetry run pytest --cov=src --cov-fail-under=0 tests/
 echo "Verify poetry installing"
+
+echo "Running Pytest"
+# run pytest
+sudo apt install -y $(grep -o ^[^#][[:alnum:]-]* "packages.list")
+python3 -m pip install --upgrade pip
+pip3 install -r requirements.txt
