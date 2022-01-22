@@ -49,7 +49,7 @@ jobs:
       - name: Poetry install
         uses: abatilo/actions-poetry@v2.0.0
         with:
-          poetry-version: 1.0.9
+          poetry-version: ${{ matrix.poetry-version }}
 
       - name: Install dependencies with poetry
         run: poetry install
