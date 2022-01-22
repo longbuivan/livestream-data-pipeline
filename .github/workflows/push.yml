@@ -16,7 +16,7 @@ jobs:
       matrix:
         python-version: [3.8, 3.7]
         poetry-version: [1.0.9]
-        os: [ubuntu-18.04, ubuntu-latest]
+        os: [ubuntu-latest]
     runs-on: ubuntu-latest
 
     steps:
@@ -34,11 +34,19 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           pip3 install -r requirements.txt
-          pip install -e .
+
+      - name: Lint with flake8
+        run: |
+          pip install flake8
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
       - name: Test with pytest
         run: |
-          python3 -m pytest --cov=src --cov-fail-under=0 tests/
+          pip install pytest
+          pytest tests/
 
       # - name: Poetry install
       #   uses: abatilo/actions-poetry@v2.0.0
