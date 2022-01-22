@@ -52,7 +52,7 @@ jobs:
           poetry-version: ${{ matrix.poetry-version }}
 
       - name: Install dependencies with poetry
-        run: poetry install
+        run: poetry install --no-root
         # continue-on-error: true
 
       # - name: UT
