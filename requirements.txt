@@ -1,6 +1,6 @@
 pytest
 pytest-cov
-coverage
+# coverage
 pytest-github-actions-annotate-failures
 boto3
 pylint
