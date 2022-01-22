@@ -41,19 +41,25 @@
   > terraform destroy
 
 ## CICD Set-up
+`ci-pipeline` has been set up for running ci on Github Action
+Please do not modify if need
+Jobs on CI pipeline:
+- python-job:
+  - Checkout
+  - Clean environment
+  - Install and Lint with Flake8
+  - Install poetry
+  - Install dependencies
+  - Pylint check
+  - Pytest check
+  - Run out coverage
+- terraform-job:
+  - Checkout
+  - Start Container localstack with Docker image
+  - Plan resources
+  - Apply resources
+  - Destroy resources
+  - Stop Container
 
-Before we start, ensure you can access Docker Hub from any workflows you create. To do this:
-
-1. Add your Docker ID as a secret to GitHub. Navigate to your GitHub repository and click Settings > Secrets > New secret.
-
-2. Create a new secret with the name DOCKER_HUB_USERNAME and your Docker ID as value.
-
-3. Create a new Personal Access Token (PAT). To create a new token, go to Docker Hub Settings and then click New Access Token.
-
-4. Let’s call this token simplewhaleci.
-   ![Create github access](https://docs.docker.com/ci-cd/images/github-access-token.png)
-
-5. Now, add this Personal Access Token (PAT) as a second secret into the GitHub secrets UI with the name DOCKER_HUB_ACCESS_TOKEN.
-   ![New access token](https://docs.docker.com/ci-cd/images/github-secrets.png)
 
 **Notes** [Reference](https://docs.docker.com/ci-cd/github-actions/)
