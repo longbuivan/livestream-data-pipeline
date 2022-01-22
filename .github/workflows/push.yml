@@ -56,7 +56,7 @@ jobs:
         run: poetry run python -m coverage html
       
       - name: Show Report
-        run: cat coverage.html
+        run: cat ./htmlcov/index.html
   
   
   terraform-job:
