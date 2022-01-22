@@ -53,10 +53,9 @@ jobs:
 
       - name: Install dependencies with poetry
         run: poetry install --no-root
-        # continue-on-error: true
 
-      # - name: UT
-      #   run: PYTHONPATH=src/ poetry run pytest --cov=src --cov-fail-under=0 tests/
+      - name: UT
+        run: poetry run pytest --cov=src --cov-fail-under=0 tests/
 
       # - name: Run Coverage
       #   run: PYTHONPATH=src/ poetry run python -m coverage report -m
