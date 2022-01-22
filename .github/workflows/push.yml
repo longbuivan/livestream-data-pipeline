@@ -46,7 +46,7 @@ jobs:
       - name: Test with pytest
         run: |
           pip install pytest
-          pytest tests/
+          pytest
 
       # - name: Poetry install
       #   uses: abatilo/actions-poetry@v2.0.0
