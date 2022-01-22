@@ -10,7 +10,7 @@ on:
       - develop
 
 jobs:
-  build:
+  python-job:
     strategy:
       fail-fast: false
       matrix:
@@ -27,13 +27,13 @@ jobs:
         with:
           python-version: ${{matrix.python-version}}
 
-      # - name: Run build.sh
-      #   run: sh ./build.sh
+      - name: Run build.sh
+        run: sh ./build.sh
 
-      - name: Install Python dependencies with pip
-        run: |
-          python3 -m pip install --upgrade pip
-          pip3 install -r requirements.txt
+      # - name: Install Python dependencies with pip
+      #   run: |
+      #     python3 -m pip install --upgrade pip
+      #     pip3 install -r requirements.txt
 
       - name: Lint with flake8
         run: |
@@ -63,40 +63,44 @@ jobs:
 
       # - name: Generate XML Report
       #   run: PYTHONPATH=src/ poetry run python -m coverage xml
+  
+  
+  terraform-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build the localstack
+        run: docker-compose -f docker-compose.yml up -d --build
 
-      # - name: Build the localstack
-      #   run: docker-compose -f docker-compose.yml up -d --build
+      - name: Check running containers
+        run: docker ps -a
 
-      # - name: Check running containers
-      #   run: docker ps -a
+      - uses: hashicorp/setup-terraform@v1
+      - run: cd terraform && terraform init -input=false && ls -lrt
+        continue-on-error: true
 
-      # - uses: hashicorp/setup-terraform@v1
-      # - run: cd terraform && terraform init -input=false && ls -lrt
-      #   continue-on-error: true
+      - name: Terraform Validate
+        id: validate
+        run: cd terraform && terraform validate -no-color
+        continue-on-error: true
 
-      # - name: Terraform Validate
-      #   id: validate
-      #   run: cd terraform && terraform validate -no-color
-      #   continue-on-error: true
+      - name: Terraform Plan
+        id: plan
+        run: cd terraform && terraform plan  -no-color
+        continue-on-error: true
 
-      # - name: Terraform Plan
-      #   id: plan
-      #   run: cd terraform && terraform plan  -no-color
-      #   continue-on-error: true
+      - name: Terraform Apply
+        id: apply
+        run: cd terraform && terraform apply -auto-approve
+        continue-on-error: true
 
-      # - name: Terraform Apply
-      #   id: apply
-      #   run: cd terraform && terraform apply -auto-approve
-      #   continue-on-error: true
+      - name: Show Destroy plan
+        run: cd terraform && terraform plan -destroy
+        continue-on-error: true
 
-      # - name: Show Destroy plan
-      #   run: cd terraform && terraform plan -destroy
-      #   continue-on-error: true
+      - name: Destroy resources
+        id: destroy
+        run: cd terraform && terraform destroy -auto-approve
 
-      # - name: Destroy resources
-      #   id: destroy
-      #   run: cd terraform && terraform destroy -auto-approve
-
-      # - name: Stop containers
-      #   if: always()
+      - name: Stop containers
+        if: always()
       #   run: docker-compose -f "docker-compose.yml" down
