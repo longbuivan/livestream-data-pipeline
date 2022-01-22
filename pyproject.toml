@@ -4,8 +4,15 @@ version = "1.0.0"
 description = "Create data pipeline for ingesting web logs data to Datalake"
 authors = ["longbuivan <longbuivan@github.com>"]
 
+[tool.poetry.dependencies]
+python = "^3.8"
+click = "*"
+logging = "*"
+faker = "*"
+
+
 [tool.poetry.dev-dependencies]
-python = "~3.8"
+python = "^3.8"
 boto3 = "1.14.3"
 pytest-cov = "^2.8.1"
 pytest = "^5.3.5"
@@ -14,6 +21,7 @@ dynamodb-json = "^1.3.0"
 freezegun = "1.1.0"
 pyodbc = "4.0.32"
 coverage = "6.1"
+flake8 = "^3.8.3"
 
 [build-system]
 requires = ["poetry-core"]
