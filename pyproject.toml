@@ -12,7 +12,6 @@ faker = "*"
 
 
 [tool.poetry.dev-dependencies]
-python = "^3.8"
 boto3 = "1.14.3"
 pytest-cov = "^2.8.1"
 pytest = "^5.3.5"
