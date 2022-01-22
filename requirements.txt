@@ -1,9 +1,0 @@
-toml
-pytest
-pytest-cov
-coverage
-pytest-github-actions-annotate-failures
-boto3
-pylint
-pyodbc
-freezegun
