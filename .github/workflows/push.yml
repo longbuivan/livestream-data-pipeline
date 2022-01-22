@@ -27,8 +27,8 @@ jobs:
         with:
           python-version: ${{matrix.python-version}}
 
-      - name: Run build.sh
-        run: sh ./build.sh
+      # - name: Run build.sh
+      #   run: sh ./build.sh
 
       # - name: Install Python dependencies with pip
       #   run: |
@@ -43,17 +43,17 @@ jobs:
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-      - name: Test with pytest
-        run: python -m pytest
+      # - name: Test with pytest
+      #   run: python -m pytest
 
-      # - name: Poetry install
-      #   uses: abatilo/actions-poetry@v2.0.0
-      #   with:
-      #     poetry-version: 1.0.9
+      - name: Poetry install
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: 1.0.9
 
-      # - name: Install dependencies with poetry
-      #   run: PYTHONPATH=src/ poetry install
-      #   continue-on-error: true
+      - name: Install dependencies with poetry
+        run: PYTHONPATH=src/ poetry install
+        continue-on-error: true
 
       # - name: UT
       #   run: PYTHONPATH=src/ poetry run pytest --cov=src --cov-fail-under=0 tests/
