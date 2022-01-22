@@ -27,8 +27,8 @@ jobs:
         with:
           python-version: ${{matrix.python-version}}
 
-      - name: Run build.sh
-        run: sh ./build.sh
+      # - name: Run build.sh
+      #   run: sh ./build.sh
 
       - name: Install Python dependencies with pip
         run: |
@@ -41,57 +41,57 @@ jobs:
           pytest --cov=src --cov-fail-under=0 tests/
         continue-on-error: true
 
-      - name: Poetry install
-        uses: abatilo/actions-poetry@v2.0.0
-        with:
-          poetry-version: 1.0.9
+      # - name: Poetry install
+      #   uses: abatilo/actions-poetry@v2.0.0
+      #   with:
+      #     poetry-version: 1.0.9
 
-      - name: Install dependencies with poetry
-        run: PYTHONPATH=src/ poetry install
-        continue-on-error: true
+      # - name: Install dependencies with poetry
+      #   run: PYTHONPATH=src/ poetry install
+      #   continue-on-error: true
 
-      - name: UT
-        run: PYTHONPATH=src/ poetry run pytest --cov=src --cov-fail-under=0 tests/
+      # - name: UT
+      #   run: PYTHONPATH=src/ poetry run pytest --cov=src --cov-fail-under=0 tests/
 
-      - name: Run Coverage
-        run: PYTHONPATH=src/ poetry run python -m coverage report -m
+      # - name: Run Coverage
+      #   run: PYTHONPATH=src/ poetry run python -m coverage report -m
 
-      - name: Generate XML Report
-        run: PYTHONPATH=src/ poetry run python -m coverage xml
+      # - name: Generate XML Report
+      #   run: PYTHONPATH=src/ poetry run python -m coverage xml
 
-      - name: Build the localstack
-        run: docker-compose -f docker-compose.yml up -d --build
+      # - name: Build the localstack
+      #   run: docker-compose -f docker-compose.yml up -d --build
 
-      - name: Check running containers
-        run: docker ps -a
+      # - name: Check running containers
+      #   run: docker ps -a
 
-      - uses: hashicorp/setup-terraform@v1
-      - run: cd terraform && terraform init -input=false && ls -lrt
-        continue-on-error: true
+      # - uses: hashicorp/setup-terraform@v1
+      # - run: cd terraform && terraform init -input=false && ls -lrt
+      #   continue-on-error: true
 
-      - name: Terraform Validate
-        id: validate
-        run: cd terraform && terraform validate -no-color
-        continue-on-error: true
+      # - name: Terraform Validate
+      #   id: validate
+      #   run: cd terraform && terraform validate -no-color
+      #   continue-on-error: true
 
-      - name: Terraform Plan
-        id: plan
-        run: cd terraform && terraform plan  -no-color
-        continue-on-error: true
+      # - name: Terraform Plan
+      #   id: plan
+      #   run: cd terraform && terraform plan  -no-color
+      #   continue-on-error: true
 
-      - name: Terraform Apply
-        id: apply
-        run: cd terraform && terraform apply -auto-approve
-        continue-on-error: true
+      # - name: Terraform Apply
+      #   id: apply
+      #   run: cd terraform && terraform apply -auto-approve
+      #   continue-on-error: true
 
-      - name: Show Destroy plan
-        run: cd terraform && terraform plan -destroy
-        continue-on-error: true
+      # - name: Show Destroy plan
+      #   run: cd terraform && terraform plan -destroy
+      #   continue-on-error: true
 
-      - name: Destroy resources
-        id: destroy
-        run: cd terraform && terraform destroy -auto-approve
+      # - name: Destroy resources
+      #   id: destroy
+      #   run: cd terraform && terraform destroy -auto-approve
 
-      - name: Stop containers
-        if: always()
-        run: docker-compose -f "docker-compose.yml" down
+      # - name: Stop containers
+      #   if: always()
+      #   run: docker-compose -f "docker-compose.yml" down
