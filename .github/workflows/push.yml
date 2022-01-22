@@ -34,7 +34,7 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           pip3 install -r requirements.txt
-          pip install -e
+          pip install -e .
 
       - name: Test with pytest
         run: |
