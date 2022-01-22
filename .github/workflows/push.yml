@@ -32,13 +32,13 @@ jobs:
 
       - name: Install Python dependencies with pip
         run: |
-          sudo apt install -y $(grep -o ^[^#][[:alnum:]-]* "packages.list")
           python3 -m pip install --upgrade pip
           pip3 install -r requirements.txt
+          pip install -e
 
       - name: Test with pytest
         run: |
-          pytest --cov=src --cov-fail-under=0 tests/
+          python3 -m pytest --cov=src --cov-fail-under=0 tests/
 
       # - name: Poetry install
       #   uses: abatilo/actions-poetry@v2.0.0
