@@ -69,7 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Build the localstack
         run: docker-compose -f docker-compose.yml up -d --build
 
@@ -105,4 +105,4 @@ jobs:
 
       - name: Stop containers
         if: always()
-      #   run: docker-compose -f "docker-compose.yml" down
+        run: docker-compose -f "docker-compose.yml" down
