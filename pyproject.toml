@@ -5,7 +5,7 @@ description = "Create data pipeline for ingesting web logs data to Datalake"
 authors = ["longbuivan <longbuivan@github.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "3.8.12"
 click = "*"
 logging = "*"
 faker = "*"
