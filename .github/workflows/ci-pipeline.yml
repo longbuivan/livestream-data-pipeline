@@ -56,11 +56,11 @@ jobs:
         run: poetry run python -m coverage html
       
       - name: Show Report
+        if: ${{false}}
         run: cat ./htmlcov/index.html
   
   
   terraform-job:
-    if: ${{false}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -73,8 +73,6 @@ jobs:
 
       - uses: hashicorp/setup-terraform@v1
       - run: cd terraform && terraform init -input=false && ls -lrt
-        continue-on-error: true
-
       - name: Terraform Validate
         id: validate
         run: cd terraform && terraform validate -no-color
