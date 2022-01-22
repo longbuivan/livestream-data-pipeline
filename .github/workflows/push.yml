@@ -64,7 +64,7 @@ jobs:
         run: poetry run python -m coverage xml
       
       - name: Show Report
-        run: ls -lrt
+        run: cat coverage.xml
   
   
   terraform-job:
