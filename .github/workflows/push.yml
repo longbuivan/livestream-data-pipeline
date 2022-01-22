@@ -62,6 +62,9 @@ jobs:
 
       - name: Generate XML Report
         run: poetry run python -m coverage xml
+      
+      - name: Show Report
+        run: ls -lrt
   
   
   terraform-job:
