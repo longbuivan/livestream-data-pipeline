@@ -94,10 +94,10 @@ def _json_to_parquet(json_data):
         responses.append(response)
     return responses
 
-def lambda_handler(event, context):
+def lambda_handler(event):
     """Main function"""
     LOGGER.info('Event structure: %s', event)
     json_data = _read_json_object(event)
-    LOGGER.info("File json to csv processed: " + str(_json_to_csv(json_data)))
-    LOGGER.info("File json to parquet: " + str(_json_to_parquet(json_data)))
-    LOGGER.info("New key: " + str(_auto_generate_dynamodb()))
+    LOGGER.info("File json to csv processed: %s", str(_json_to_csv(json_data)))
+    LOGGER.info("File json to parquet: %s", str(_json_to_parquet(json_data)))
+    LOGGER.info("New key: %s", str(_auto_generate_dynamodb()))
