@@ -12,6 +12,27 @@ data "archive_file" "parse_json" {
     
 }
 
+
+# Lambda Raw Data Ingesting
+
+resource "aws_lambda_function" "web_raw_ingesting_lambda" {
+  function_name = "web_ingesting"
+  filename = "function.zip"
+  runtime = "python3.8"
+  handler = "src/parse_json.lambda_handler"
+  timeout = "900"
+  memory_size = "128"
+  source_code_hash = data.archive_file.parse_json.output_base64sha256
+  role = aws_iam_role.LambdaExecution.arn
+
+  environment {
+    variables = {
+      WEB_RAW_KINESIS = aws_kinesis_stream.web_raw_streaming.name
+    }
+  }
+}
+
+
 #Lambda resource
 resource "aws_lambda_function" "parse_json" {
   function_name = "parse_json"
