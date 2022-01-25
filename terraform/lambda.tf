@@ -1,6 +1,5 @@
 ####Lambda Function###
 #Lambda package data
-#Lambda package data
 data "archive_file" "parse_json" {
     type = "zip"
     source {
@@ -12,14 +11,23 @@ data "archive_file" "parse_json" {
     
 }
 
+data "archive_file" "web_ingesting" {
+    type = "zip"
+    source {
+      content  = file("../src/web_ingesting.py")
+      filename = "src/web_ingesting.py"
+    }
 
+    output_path = "./web_ingesting.zip"
+    
+}
 # Lambda Raw Data Ingesting
 
 resource "aws_lambda_function" "web_raw_ingesting_lambda" {
   function_name = "web_ingesting"
-  filename = "function.zip"
+  filename = "web_ingesting.zip"
   runtime = "python3.8"
-  handler = "src/parse_json.lambda_handler"
+  handler = "src/web_ingesting.lambda_handler"
   timeout = "900"
   memory_size = "128"
   source_code_hash = data.archive_file.parse_json.output_base64sha256

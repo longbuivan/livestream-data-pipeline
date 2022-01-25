@@ -1,4 +1,5 @@
 # import re
+from distutils.log import Log
 from multiprocessing.connection import Client
 import requests
 import json
@@ -17,13 +18,21 @@ WEB_ENDPOINT = 'https://61e67a17ce3a2d0017359174.mockapi.io/web-logs/web'
 def _ingesting_web(endpoint):
     "This function will ingest raw data from endpoint without Authentication"
     try:
-        res = requests.get(WEB_ENDPOINT)
+        LOGGER.debug(f'Calling endpoint')
+        res = requests.get(endpoint)
         payload = json.loads(res.text)
         LOGGER.debug(f'Raw data: {payload}')
 
+
+        # Adding PartitionKey
+        LOGGER.debug(f'Adding Partition key for data objects')
+
+
+
         # Put data to Kinesis Stream
-        kinesis_client.put_records_batch(
-            StreamName='web_raw_streaming', Data=payload)
+        LOGGER.debug(f'Putting reccords')
+        # kinesis_client.put_records(
+        #     StreamName='web_raw_streaming', Records =payload)
 
     except Client:
         LOGGER.exception('Client Error')
@@ -31,3 +40,13 @@ def _ingesting_web(endpoint):
         LOGGER.exception('Value Error')
     except Exception as e:
         LOGGER.exception(f'Ingestion failed with {e}')
+
+
+def _lambda_handler(event, context):
+    endpoint = WEB_ENDPOINT
+    LOGGER.debug(f'Starting to pull data from endpoint')
+    _ingesting_web(endpoint)
+
+    # Todo:
+    # 1. Failed handler
+    # 2. Disaster Recovery
