@@ -1,5 +1,6 @@
-# import re
-from distutils.log import Log
+import os
+from distutils.log import Log, debug
+from email.message import Message
 from multiprocessing.connection import Client
 import requests
 import json
@@ -9,30 +10,29 @@ import boto3
 LOGGER = logging.getLogger()
 LOGGER.setLevel(logging.INFO)
 
-kinesis_client = boto3.client('kenesis', region_name='us-east-1')
+kinesis_client = boto3.client('kinesis', region_name='us-east-1')
 
 
-WEB_ENDPOINT = 'https://61e67a17ce3a2d0017359174.mockapi.io/web-logs/web'
+WEB_ENDPOINT = os.environ["WEB_ENDPOINT"]
+RAW_STREAM_NAME = os.environ["RAW_STREAM_NAME"]
+
+
+def _pushing_record_to_kinesis(data, partition_key, stream_name):
+    "This function will push = parsed data to data stream"
+    LOGGER.debug(f"Pushing event to Kinesis Stream")
+    return kinesis_client.put_records(
+        Records=[{"Data": data.encode("utf-8"), "PartitionKey": str(partition_key)}],
+        StreamName=stream_name
+    )
 
 
 def _ingesting_web(endpoint):
     "This function will ingest raw data from endpoint without Authentication"
     try:
         LOGGER.debug(f'Calling endpoint')
-        res = requests.get(endpoint)
-        payload = json.loads(res.text)
+        res=requests.get(endpoint)
+        payload=json.loads(res.text)
         LOGGER.debug(f'Raw data: {payload}')
-
-
-        # Adding PartitionKey
-        LOGGER.debug(f'Adding Partition key for data objects')
-
-
-
-        # Put data to Kinesis Stream
-        LOGGER.debug(f'Putting reccords')
-        # kinesis_client.put_records(
-        #     StreamName='web_raw_streaming', Records =payload)
 
     except Client:
         LOGGER.exception('Client Error')
@@ -40,12 +40,26 @@ def _ingesting_web(endpoint):
         LOGGER.exception('Value Error')
     except Exception as e:
         LOGGER.exception(f'Ingestion failed with {e}')
+    return payload
 
 
 def _lambda_handler(event, context):
-    endpoint = WEB_ENDPOINT
+    endpoint=WEB_ENDPOINT
+    stream_name=RAW_STREAM_NAME
     LOGGER.debug(f'Starting to pull data from endpoint')
-    _ingesting_web(endpoint)
+    data=_ingesting_web(endpoint)
+    partition_key=data['id']
+    _pushing_record_to_kinesis(data, partition_key, stream_name)
+
+    return {
+        "statusCode": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "body": json.dumps({
+            "Message": "Success to Ingest Records"
+        })
+    }
 
     # Todo:
     # 1. Failed handler

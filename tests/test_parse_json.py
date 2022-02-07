@@ -5,7 +5,7 @@ import base64
 import time
 import pytest
 from freezegun import freeze_time
-from src.parse_json import lambda_handler, _read_json_object, _auto_generate_dynamodb, _json_to_csv, _json_to_parquet
+from src.flatting_data import lambda_handler, _read_json_object, _auto_generate_dynamodb, _json_to_csv, _json_to_parquet
 
 
 def test_lambda_handler():
