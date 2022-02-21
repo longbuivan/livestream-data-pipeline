@@ -1,7 +1,7 @@
 resource "aws_kinesis_stream" "web_raw_streaming" {
   name             = "web_raw_streaming"
   shard_count      = 1
-  retention_period = 12
+  retention_period = 24
 
   shard_level_metrics = [
     "IncomingBytes",

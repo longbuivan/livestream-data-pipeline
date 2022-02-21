@@ -54,7 +54,7 @@ variable "environment" {
 locals {
   tags = {
     Environment    = var.environment
-    Group          = "Fresher Academy 2"
+    Group          = "Fresher Academy 3"
     OwnerEmail     = "longbuivan95@gmail.com"
     PipelineRepo   = "https://github.com/longbuivan/traning.git"
     Workload       = "Mini Project"

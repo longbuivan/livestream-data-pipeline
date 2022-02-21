@@ -1,5 +1,3 @@
-####Lambda Function###
-#Lambda package data
 data "archive_file" "flatting_data" {
   type = "zip"
   source {
@@ -36,14 +34,13 @@ resource "aws_lambda_function" "web_raw_ingesting_lambda" {
   environment {
     variables = {
       WEB_RAW_KINESIS = aws_kinesis_stream.web_raw_streaming.name
-      RAW_STREAM_NAME = aws_kinesis_stream.web_raw_streaming.name
       WEB_ENDPOINT    = var.web_data_endpoint.name
     }
   }
 }
 
 
-#Lambda resource
+# Lambda Data Flatting
 resource "aws_lambda_function" "flatting_data" {
   function_name    = "flatting_data"
   filename         = "function.zip"
@@ -55,7 +52,6 @@ resource "aws_lambda_function" "flatting_data" {
   role             = aws_iam_role.LambdaExecution.arn
 }
 
-#Grant bucket-1 permission to trigger Lambda Function
 resource "aws_lambda_permission" "allow_terraform_bucket" {
   statement_id  = "AllowExecutionFromS3Bucket"
   action        = "lambda:InvokeFunction"
@@ -64,7 +60,6 @@ resource "aws_lambda_permission" "allow_terraform_bucket" {
   source_arn    = aws_s3_bucket.bucket-1.arn
 }
 
-#Add s3 resource for invoking to lambda function
 resource "aws_s3_bucket_notification" "bucket_terraform_notification" {
   bucket = aws_s3_bucket.bucket-1.id
   lambda_function {
