@@ -42,7 +42,7 @@ def _ingesting_web(endpoint):
     return payload
 
 
-def _lambda_handler(event, context):
+def lambda_handler(event, context):
     endpoint = WEB_ENDPOINT
     stream_name = RAW_STREAM_NAME
     LOGGER.debug(f'Starting to pull data from endpoint')

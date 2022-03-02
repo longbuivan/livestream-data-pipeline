@@ -1,9 +1,7 @@
-####IAM###
-#LambdaExcecution IAM Policies
-resource "aws_iam_policy" "LambdaExecutionPolicy" {
-  name = "lambda_policy"
+resource "aws_iam_policy" "lambda_execution_policy" {
+  name = "lambda-execution-policy"
 
-policy = <<EOF
+  policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -16,36 +14,8 @@ policy = <<EOF
       ],
       "Effect": "Allow",
       "Resource": [
-        "arn:aws:s3:::${aws_s3_bucket.bucket-1.id}",
-        "arn:aws:s3:::${aws_s3_bucket.bucket-1.id}/*"
-      ]
-    },
-    {
-      "Action": [
-        "s3:ListBucket",
-        "s3:PutObject",
-        "s3:PutObjectAcl",
-        "s3:CopyObject",
-        "s3:HeadObject"
-      ],
-      "Effect": "Allow",
-      "Resource": [
-        "arn:aws:s3:::${aws_s3_bucket.bucket-2.id}",
-        "arn:aws:s3:::${aws_s3_bucket.bucket-2.id}/*"
-      ]
-    },
-    {
-      "Action": [
-        "s3:ListBucket",
-        "s3:PutObject",
-        "s3:PutObjectAcl",
-        "s3:CopyObject",
-        "s3:HeadObject"
-      ],
-      "Effect": "Allow",
-      "Resource": [
-        "arn:aws:s3:::${aws_s3_bucket.bucket-3.id}",
-        "arn:aws:s3:::${aws_s3_bucket.bucket-3.id}/*"
+        "arn:aws:s3:::${var.environment}-web-raw-data-s3.id}",
+        "arn:aws:s3:::${var.environment}-web-raw-data-s3.id}/*"
       ]
     },
     {
@@ -59,22 +29,11 @@ policy = <<EOF
     },
     {
       "Action": [
-        "dynamodb:GetItem",
-        "dynamodb:GetRecords",
-        "dynamodb:PutItem",
-        "dynamodb:UpdateItem",
-        "dynamodb:Query"
-      ],
-      "Effect": "Allow",
-      "Resource": "${aws_dynamodb_table.dynamodb-table.arn}"
-    },
-    {
-      "Action": [
         "firehose:PutRecord",
         "firehose:PutRecordBatch"
       ],
       "Effect": "Allow",
-      "Resource": "${aws_kinesis_firehose_delivery_stream.extend_parquet.arn}"
+      "Resource": "${aws_kinesis_firehose_delivery_stream.data_delivery_stream_s3.arn}"
     }
   ]
 }
@@ -83,10 +42,10 @@ EOF
 }
 
 
-resource "aws_iam_policy" "FirehoseExecutionPolicy" {
-  name = "firehose_policy"
+resource "aws_iam_policy" "firehose-execution-policy" {
+  name = "firehose-execution-policy"
 
-policy = <<EOF
+  policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -100,8 +59,8 @@ policy = <<EOF
       ],
       "Effect": "Allow",
       "Resource": [
-        "arn:aws:s3:::${aws_s3_bucket.bucket-3.id}",
-        "arn:aws:s3:::${aws_s3_bucket.bucket-3.id}/*"
+        "arn:aws:s3:::${var.environment}-web-flatten-data-s3",
+        "arn:aws:s3:::${var.environment}-web-flatten-data-s3/*"
       ]
     },
     {
@@ -133,9 +92,9 @@ EOF
 
 }
 
-#LambdaExecution IAM Resources
-resource "aws_iam_role" "LambdaExecution" {
-  name = "LambdaExecution"
+#lambda_execution_role IAM Resources
+resource "aws_iam_role" "lambda_execution_role" {
+  name = "lambda-execution-role"
 
   assume_role_policy = <<EOF
 {
@@ -154,13 +113,13 @@ EOF
 }
 
 #Attach Role and Polices
-resource "aws_iam_role_policy_attachment" "terraform_lambda_iam_policy_basic_execution" {
- role = "${aws_iam_role.LambdaExecution.id}"
- policy_arn = "${aws_iam_policy.LambdaExecutionPolicy.arn}"
+resource "aws_iam_role_policy_attachment" "lambda_iam_policy_basic_execution" {
+  role       = aws_iam_role.lambda_execution_role.id
+  policy_arn = aws_iam_policy.lambda_execution_policy.arn
 }
 
 resource "aws_iam_role" "firehose_role" {
-  name = "firehose_test_role"
+  name = "firehose-role"
 
   assume_role_policy = <<EOF
 {
@@ -182,8 +141,8 @@ EOF
 
 #Attach Role and Polices
 resource "aws_iam_role_policy_attachment" "terraform_firehose_iam_policy_basic_execution" {
- role = "${aws_iam_role.firehose_role.id}"
- policy_arn = "${aws_iam_policy.FirehoseExecutionPolicy.arn}"
+  role       = aws_iam_role.firehose_role.id
+  policy_arn = aws_iam_policy.firehose-execution-policy.arn
 }
 
 

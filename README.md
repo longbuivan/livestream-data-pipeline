@@ -8,7 +8,17 @@ In order to understand user behaviors with Click-Stream data, the project presen
 
 - [ ] [F10] Understand Problems and Technical Discussion
 - [ ] [F11] Set up Local Machine Environment
+  - [ ] Install Docker: hosting localstack
+  - [ ] Install Python
+  - [ ] Install Terraform
+  - [ ] Output 1: hosting localstack.
+  - [ ] Output 2: Create Lambda function/dynamodb/s3/IAM/... by terraform, count number of row in csv file, write the result into dynamodb {"row": 3}.
+  - [ ] Deadline: 5 Mar, 2022
 - [ ] [F12] CICD Set up with resources
+  - [ ] Hosting Jenkin CICD
+  - [ ] Integrate Github Action (prefered)
+  - [ ] Output: run CI for [F11]: validate terraform, validate python code
+  - [ ] Deadline: 9 Mar, 2022
 - [ ] [F20] Ingesting data from API and push into Kinesis Data Stream
 - [ ] [F21] Parsing and Flatting data and Send to Delivery Stream
 - [ ] [F22] Storing Data into Lake-house

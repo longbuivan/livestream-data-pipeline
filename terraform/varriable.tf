@@ -3,7 +3,7 @@ variable "AWS_REGION" {
 }
 
 variable "web_data_endpoint" {
-  name = "https://61e67a17ce3a2d0017359174.mockapi.io/web-logs/web"
+  default = "https://61e67a17ce3a2d0017359174.mockapi.io/web-logs/web"
 }
 
 variable "kinesis_lambda_trigger_config" {

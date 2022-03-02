@@ -1,36 +1,24 @@
-####S3####
 
-#S3 bucket for tfstae
 resource "aws_s3_bucket" "terraform-workspace-state" {
-  bucket = "tfstate"
-  acl = "private"
-  force_destroy = true # for comment for integration test
+  bucket        = "tfstate"
+  acl           = "private"
+  force_destroy = true 
 }
 
-#S3 bucket for put files as JSON
-resource "aws_s3_bucket" "bucket-1" {
-  bucket = "bucket-1-json"
+resource "aws_s3_bucket" "web_raw_data_s3" {
+  bucket = "${var.environment}-web-raw-data-s3"
   acl    = "private"
-  force_destroy = true
+  versioning {
+    enabled = false
+  }
+  tags = local.tags
 }
 
-#S3 bucket for save file as CSV
-resource "aws_s3_bucket" "bucket-2" {
-  bucket = "bucket-2-csv"
+resource "aws_s3_bucket" "web_flatten_data_s3" {
+  bucket = "${var.environment}-web-flatten-data-s3"
   acl    = "private"
-  force_destroy = true
-}
-
-#S3 bucket for save file as CSV
-resource "aws_s3_bucket" "bucket-3" {
-  bucket = "bucket-3-parquet"
-  acl    = "private"
-  force_destroy = true
-}
-
-variable "s3_bucket" {
-    default = {
-      test = "bucket-3-parquet"
-      real = ""
-    }
+  versioning {
+    enabled = false
+  }
+  tags = local.tags
 }

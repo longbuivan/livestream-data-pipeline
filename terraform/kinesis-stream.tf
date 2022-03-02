@@ -10,9 +10,12 @@ resource "aws_kinesis_stream" "web_raw_streaming" {
     "IncomingRecords"
   ]
 
-  stream_mode_details {
-    stream_mode = "PROVISIONED"
-  }
+  # stream_mode_details {
+  #   stream_mode = "PROVISIONED"
+  # }
 
-  tags = local.tags
+  tags = {
+    Environment = var.environment,
+    Workload    = "Mini Project"
+  }
 }
