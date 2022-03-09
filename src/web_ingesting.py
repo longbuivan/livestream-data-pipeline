@@ -13,8 +13,8 @@ logging.basicConfig(
 kinesis_client = boto3.client('kinesis', region_name='us-east-1')
 
 
-WEB_ENDPOINT = os.environ["WEB_ENDPOINT"]
-RAW_STREAM_NAME = os.environ["RAW_STREAM_NAME"]
+WEB_ENDPOINT = os.environ.get("WEB_ENDPOINT", "WEB_ENDPOINT")
+RAW_STREAM_NAME = os.environ.get("RAW_STREAM_NAME", "RAW_STREAM_NAME")
 
 
 def _pushing_record_to_kinesis(data, partition_key, stream_name):
