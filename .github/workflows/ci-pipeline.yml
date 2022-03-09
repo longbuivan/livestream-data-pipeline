@@ -60,6 +60,7 @@ jobs:
   
   
   terraform-job:
+    needs: python-job
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
