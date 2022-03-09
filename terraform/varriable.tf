@@ -9,10 +9,10 @@ variable "web_data_endpoint" {
 variable "kinesis_lambda_trigger_config" {
   default = {
     config = {
-      "batch_size"                         = 10
-      "maximum_batching_window_in_seconds" = 300
-      "parallelization_factor"             = 2
-      "maximum_record_age_in_seconds"      = 600
+      "batch_size"                         = 5
+      "maximum_batching_window_in_seconds" = 30
+      "parallelization_factor"             = 1
+      "maximum_record_age_in_seconds"      = 60
       "maximum_retry_attempts"             = 0
     }
   }

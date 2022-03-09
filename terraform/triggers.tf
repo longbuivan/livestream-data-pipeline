@@ -17,7 +17,6 @@ resource "aws_lambda_event_source_mapping" "kinesis_lambda_triggering" {
   }
   depends_on = [
     aws_sns_topic.flatten_data_dead_letter_queue_sns,
-    aws_sqs_queue.raw_data_buffer_sqs,
   ]
 }
 
