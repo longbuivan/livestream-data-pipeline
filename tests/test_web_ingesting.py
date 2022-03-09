@@ -1,9 +1,8 @@
 from unittest.mock import patch
-from src.web_ingesting import lambda_handler
-from data import data
+from tests.test_data.data import mock_data
 
 
-MOCK_DATA = data
+MOCK_DATA = mock_data
 
 
 def test_lambda_handler():

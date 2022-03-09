@@ -1,4 +1,4 @@
-def data():
+def mock_data():
     return [
         {
         "created-at": "2022-01-17T20:55:28.209Z",
