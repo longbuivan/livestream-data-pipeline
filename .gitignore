@@ -162,3 +162,9 @@ cython_debug/
 
 # zip function by terraform
 *.zip*
+
+# venv
+*dev*
+
+# vscode
+*.vscode*

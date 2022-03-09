@@ -2,15 +2,42 @@
 
 ## Problems
 
-1. Create s3, dynamodb, iam and 1 lambda to read file json from s3 bucket 1, parse and save in s3 bucket 2 with csv, each time parsedwill count +1 in dynamodb.
-2. Partition by ingestion time.
-3. Parse and save as parquet file in s3 bucket 3.
-4. Save file with datetime partition.
+In order to understand user behaviors with Click-Stream data, the project presents how to fetch data from API with ETL processes placed in the data pipeline. Deployment with CICD on GithubAction setup to make sure of a Validation and Quality Check. Terraform is used as IaC for managing resources. Dockerizing AWS Mock with localstack for hosting resources on a local machine.
+
+## Feature Engineering
+
+- [ ] [F10] Understand Problems and Technical Discussion
+- [ ] [F11] Set up Local Machine Environment
+  - [ ] Install Docker: hosting localstack
+  - [ ] Install Python
+  - [ ] Install Terraform
+  - [ ] Output 1: hosting localstack.
+  - [ ] Output 2: Create Lambda function/dynamodb/s3/IAM/... by terraform, count number of row in csv file, write the result into dynamodb {"row": 3}.
+  - [ ] Deadline: 5 Mar, 2022
+- [ ] [F12] CICD Set up with resources
+  - [ ] Hosting Jenkin CICD
+  - [ ] Integrate Github Action (prefered)
+  - [ ] Output: run CI for [F11]: validate terraform, validate python code
+  - [ ] Deadline: 9 Mar, 2022
+- [ ] [F20] Ingesting data from API and push into Kinesis Data Stream
+- [ ] [F21] Parsing and Flatting data and Send to Delivery Stream
+- [ ] [F22] Storing Data into Lake-house
+- [ ] [F30] Transforming Data with Slowly Changing Dimension
+- [ ] [F31] Enriching Data with Data Processing method as Lambda Architect
+- [ ] [F40] Setup Cloud Warehouse and needed permission
+- [ ] [F41] Creating resources pulling data as Dimensional Model to Warehouseless
+- [ ] [F50] Developing data monitoring
+- [ ] [F51] Developing data quality and data validation
+- [ ] [F60] Set up BI tools for visualizing data
+- [ ] [F61] Setup Connection to write back data to lake-house
+- [ ] [F63] Exposing API for end-user
+- [ ] [F70] Deploy to AWS/Azure Cloud
+- [ ] [F71] Embed Machine Learning Model to Data pipeline
 
 ## Technical Requirements
 
-- Use kenesis firehose to store data as parquet file.
-- Can use localstack và terraform và python
+- Use Kinesis firehose to store data as parquet file.
+- Can use Localstack và terraform và python
 - Unit Test:
 
 - pylint, pytest, UnitTesting
@@ -18,12 +45,12 @@
 
 ## How to start on local machine
 
-1. Resources:
+### 1. Resources
 
 - Docker Engine
 - Terraform
 
-2. Steps for starting
+### 2. Steps for starting
 
 - Build localstack if none:
   > docker-compose -f docker-compose.yml up -d --build
@@ -36,14 +63,16 @@
 - Plan for seeing any changes on resources
   > terraform plan
 - Deploy for new resources creation
-  > terraoform apply --auto-approve
+  > terraform apply --auto-approve
 - Destroy resources with
   > terraform destroy
 
 ## CICD Set-up
+
 `ci-pipeline` has been set up for running ci on Github Action
 Please do not modify if need
 Jobs on CI pipeline:
+
 - python-job:
   - Checkout
   - Clean environment
@@ -60,6 +89,3 @@ Jobs on CI pipeline:
   - Apply resources
   - Destroy resources
   - Stop Container
-
-
-**Notes** [Reference](https://docs.docker.com/ci-cd/github-actions/)

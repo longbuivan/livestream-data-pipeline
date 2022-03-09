@@ -39,6 +39,8 @@ provider "aws" {
     ssm            = "http://localhost:4566"
     stepfunctions  = "http://localhost:4566"
     sts            = "http://localhost:4566"
+    cloudwatchlogs = "http://localhost:4566"
+    cloudwatchevents = "http://localhost:4566"
   }
 }
 
@@ -53,11 +55,11 @@ variable "environment" {
 
 locals {
   tags = {
-    Environment    = var.environment
-    Group          = "Fresher Academy 2"
-    OwnerEmail     = "longbuivan95@gmail.com"
-    PipelineRepo   = "https://github.com/longbuivan/traning.git"
-    Workload       = "Mini Project"
+    Environment  = var.environment
+    Group        = "Fresher Academy 3"
+    OwnerEmail   = "longbuivan95@gmail.com"
+    PipelineRepo = "https://github.com/longbuivan/tranning.git"
+    Workload     = "Mini Project"
   }
   account_id = data.aws_caller_identity.current_identity.account_id
   region     = data.aws_region.current_region.name
